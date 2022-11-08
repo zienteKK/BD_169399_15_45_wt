@@ -1,0 +1,22 @@
+//ZAD 1
+
+CREATE TABLE postac (id_postaci INT PRIMARY KEY  NOT NULL AUTO_INCREMENT, nazwa VARCHAR(40), rodzaj ENUM('wiking','ptak','kobieta'), data_ur DATE, wiek INT CHECK (wiek >=0);
+
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Bjorn", 'wiking', '1997-11-08', '25');
+
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL,"Drozd",'wiking', '1999-01-18', '23');
+
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL,"Tesciowa",'kobieta', '1962-06-12', '60');
+
+UPDATE postac set wiek='88' WHERE nazwa='Tesciowa';
+
+//ZAD 2
+
+CREATE TABLE walizka(id_walizki INT PRIMARY KEY NOT NULL AUTO_INCREMENT, pojemnosc FLOAT, kolor ENUM('rozowy','czerwony','teczowy','zolty'), id_wlasciciela INT, FOREIGN KEY(id_wlasciciela) REFERENCES zienowiczp.postac(id_postaci) ON DELETE CASCADE);
+
+ALTER TABLE walizka ALTER kolor SET DEFAULT 'rozowy';
+
+
+
+
+
