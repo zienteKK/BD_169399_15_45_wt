@@ -12,11 +12,39 @@ UPDATE postac set wiek='88' WHERE nazwa='Tesciowa';
 
 //ZAD 2
 
-CREATE TABLE walizka(id_walizki INT PRIMARY KEY NOT NULL AUTO_INCREMENT, pojemnosc FLOAT, kolor ENUM('rozowy','czerwony','teczowy','zolty'), id_wlasciciela INT, FOREIGN KEY(id_wlasciciela) REFERENCES zienowiczp.postac(id_postaci) ON DELETE CASCADE);
+CREATE TABLE walizka(id_walizki int PRIMARY KEY AUTO_INCREMENT, pojemnosc float, kolor enum('rozowy', 'czerwony', 'teczowy', 'zolty'), id_wlasciciela int, FOREIGN KEY(id_wlasciciela) REFERENCES zienowiczp.postac(id_postaci) ON DELETE CASCADE);
 
 ALTER TABLE walizka ALTER kolor SET DEFAULT 'rozowy';
 
+INSERT INTO walizka (id_walizki, pojemnosc, kolor, id_wlasciciela) VALUES (NULL, 40, 'czerwony', '1');
+
+INSERT INTO walizka (id_walizki, pojemnosc, kolor, id_wlasciciela) VALUES (NULL, 50, 'teczowy', '2');
+
+//ZAD 3
 
 
+CREATE TABLE izba (adres_budynku VARCHAR(30), nazwa_izby VARCHAR(30), metraz FLOAT, wlasciciel int NOT NULL, FOREIGN KEY(wlasciciel) REFERENCES zienowiczp.postac(id_postaci), CONSTRAINT adres_nazwa PRIMARY KEY (adres_budynku,nazwa_izby));
+
+ALTER TABLE izba ADD kolor_izby ENUM('czarny','bialy','czerwony','szary') AFTER metraz;
+
+ALTER TABLE izba ALTER kolor_izby SET DEFAULT 'czarny';
+
+INSERT INTO izba (adres_budynku, nazwa_izby, metraz, wlasciciel) VALUES ("kraina", "spizarnia", '20', '1');
+
+//ZAD 4
+
+CREATE TABLE przetwory (id_przetworu INT PRIMARY KEY, rok_produkcji INT(4) CHECK (rok_produkcji >1) DEFAULT 1654, id_wykonawcy INT, FOREIGN KEY(id_wykonawcy) REFERENCES zienowiczp.postac(id_postaci), zawartosc VARCHAR(30), dodatek
+CHAR(20) DEFAULT 'papryczka_chilli', id_konsumenta INT, FOREIGN KEY(id_konsumenta) REFERENCES zienowiczp.postac(id_postaci));
+
+INSERT INTO przetwory (id_przetworu, zawartosc, dodatek) VALUES (1, 'bigos', 'papryczka_chilli');
 
 
+//ZAD 5
+
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Rollo", 'wiking', '1911-02-28', '16');
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Ragnar", 'wiking', '1764-07-14', '31');
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Ubbe", 'wiking', '1765-01-19', '24');
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Ivar", 'wiking', '1777-11-25', '19');
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Floki", 'wiking', '1730-06-11', '53');
+
+CREATE TABLE statek (nazwa_statku INT NOT NULL PRIMARY KEY, rodzaj_statku ENUM('Byrding','Drakkar','Knara','Sneka','Langskip'), data_wodowania DATE, max_ladownosc INT CHECK (max_ladownosc >=0));
