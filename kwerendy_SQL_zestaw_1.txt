@@ -4,7 +4,7 @@ CREATE TABLE postac (id_postaci INT PRIMARY KEY  NOT NULL AUTO_INCREMENT, nazwa 
 
 INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Bjorn", 'wiking', '1997-11-08', '25');
 
-INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL,"Drozd",'wiking', '1999-01-18', '23');
+INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL,"Drozd",'ptak', '1999-01-18', '23');
 
 INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL,"Tesciowa",'kobieta', '1962-06-12', '60');
 
@@ -47,4 +47,27 @@ INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Ubb
 INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Ivar", 'wiking', '1777-11-25', '19');
 INSERT INTO postac (id_postaci, nazwa, rodzaj, data_ur, wiek) VALUES (NULL, "Floki", 'wiking', '1730-06-11', '53');
 
-CREATE TABLE statek (nazwa_statku INT NOT NULL PRIMARY KEY, rodzaj_statku ENUM('Byrding','Drakkar','Knara','Sneka','Langskip'), data_wodowania DATE, max_ladownosc INT CHECK (max_ladownosc >=0));
+CREATE TABLE statek (nazwa_statku VARCHAR(40) NOT NULL PRIMARY KEY, rodzaj_statku ENUM('Byrding','Drakkar','Knara','Sneka','Langskip'), data_wodowania DATE, max_ladownosc INT UNSIGNED);
+
+INSERT INTO statek (nazwa_statku, rodzaj_statku, data_wodowania, max_ladownosc) VALUES ('smok', 'Drakkar','1755-05-12', 20),('Norse', 'Sneka','1738-08-01', 70);
+
+UPDATE postac SET funkcja = "kapitan" WHERE nazwa = 'Bjorn';
+ALTER TABLE postac ADD funkcja VARCHAR(40);
+
+ALTER TABLE postac ADD nazwa_statku VARCHAR(40);
+
+
+
+ALTER TABLE postac ADD FOREIGN KEY (nazwa_statku) REFERENCES statek(nazwa_statku);
+
+UPDATE postac SET nazwa_statku = 'smok' WHERE id_postaci = 1;
+UPDATE postac SET nazwa_statku = 'smok' WHERE id_postaci = 2;
+UPDATE postac SET nazwa_statku = 'smok' WHERE id_postaci = 4;
+UPDATE postac SET nazwa_statku = 'Norse' WHERE id_postaci = 5;
+UPDATE postac SET nazwa_statku = 'smok' WHERE id_postaci = 6;
+UPDATE postac SET nazwa_statku = 'smok' WHERE id_postaci = 7;
+
+DELETE FROM izba WHERE nazwa_izby = 'spizarnia';
+
+DROP table izba;
+
