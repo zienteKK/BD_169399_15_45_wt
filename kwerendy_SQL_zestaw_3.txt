@@ -27,4 +27,4 @@ SELECT ilosc*waga FROM zasob WHERE YEAR(dataPozyskania) BETWEEN 2000 AND 2007;
 //zad 5
 SELECT nazwa, waga*0.7 as 'NETTO', waga*0.3 AS 'odpadki' from zasob;
 SELECT * FROM zasob WHERE rodzaj IS NULL;
-SELECT DISTINCT rodzaj FROM zasob WHERE nazwa LIKE 'Ba%' or '%os' ORDER BY nazwa;
+SELECT DISTINCT nazwa, rodzaj FROM zasob WHERE nazwa LIKE 'Ba%' or '%os' ORDER BY nazwa;
