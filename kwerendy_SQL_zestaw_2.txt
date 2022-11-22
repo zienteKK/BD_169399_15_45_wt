@@ -15,7 +15,7 @@ ALTER TABLE postac MODIFY rodzaj ENUM ('wiking','ptak','kobieta','syrena');
 INSERT INTO postac (id_postaci, nazwa, rodzaj,funkcja, pesel ) VALUES (NULL,"Gertruda_Nieszczera",'syrena', 'brak', '11111111117' );
 
 //zad 3
-UPDATE postac SET nazwa_statku='kraken' where nazwa LIKE 'a';
+UPDATE postac SET nazwa_statku='kraken' where nazwa LIKE 'a' AND rodzaj ! = 'kobieta';
  UPDATE statek SET max_ladownosc = max_ladownosc * 0.7 where data_wodowania >= '1901-01-01' & data_wodowania <='2000-12-31';
  
 ALTER TABLE postac ADD CHECK(wiek <= 1000);
@@ -53,5 +53,4 @@ ALTER TABLE Marynarz DROP COLUMN nazwa_statku;
 
 CREATE TABLE zwierz (id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, nazwa VARCHAR(40), wiek INT);
 
-INSERT INTO zwierz (nazwa, wiek)  SELECT nazwa, wiek FROM postac  WHERE rodzaj='ptak';
-INSERT INTO zwierz (nazwa, wiek)  SELECT nazwa, wiek FROM postac  WHERE rodzaj='waz';
+INSERT INTO zwierz (nazwa, wiek) SELECT nazwa, wiek FROM postac WHERE rodzaj = 'ptak' OR rodzaj = 'waz';
