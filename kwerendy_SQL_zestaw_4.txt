@@ -1,0 +1,22 @@
+//zad 1
+use wikingowie;
+SELECT AVG(waga) AS srednia_waga FROM kreatura where rodzaj = 'wiking';
+SELECT rodzaj, COUNT(rodzaj) AS liczba_kreatur, AVG(waga) as srednia_waga FROM kreatura GROUP BY rodzaj;
+SELECT ROUND(AVG(1700 - YEAR(dataUr)), 2) AS sredni_wiek FROM kreatura;
+//SELECT ROUND(AVG(YEAR(CURDATE()) - YEAR(dataUr)), 2) AS sredni_wiek FROM kreatura;
+
+//zad 2
+SELECT rodzaj, SUM(waga) as laczna_waga FROM zasob GROUP by rodzaj;
+
+SELECT nazwa, ROUND(AVG(waga), 2) as srednia_waga  from zasob GROUP BY nazwa HAVING  SUM(ilosc) >=4 AND SUM(waga) > 10;
+
+//SELECT nazwa,ROUND( AVG(waga),2) AS srednia_waga FROM zasob WHERE ilosc >= '4' AND (SELECT SUM(waga) FROM zasob) > '10' GROUP BY nazwa;
+
+SELECT rodzaj, COUNT(DISTINCT(nazwa)) FROM zasob GROUP BY rodzaj HAVING SUM(ilosc) >1;
+
+
+//zad 3
+
+
+
+
