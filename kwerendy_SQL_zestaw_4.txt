@@ -12,11 +12,15 @@ SELECT nazwa, ROUND(AVG(waga), 2) as srednia_waga  from zasob GROUP BY nazwa HAV
 
 //SELECT nazwa,ROUND( AVG(waga),2) AS srednia_waga FROM zasob WHERE ilosc >= '4' AND (SELECT SUM(waga) FROM zasob) > '10' GROUP BY nazwa;
 
-SELECT rodzaj, COUNT(DISTINCT(nazwa)) FROM zasob GROUP BY rodzaj HAVING SUM(ilosc) >1;
+SELECT rodzaj, count(distinct(nazwa)) FROM zasob GROUP BY rodzaj HAVING count(distinct(nazwa)) > 1;
 
 
 //zad 3
+SELECT kreatura.nazwa, zasob.idZasobu  FROM kreatura LEFT JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu;
 
 
+SELECT kreatura.nazwa, ekwipunek.idZasobu as ekwipunek, zasob.idZasobu, zasob.nazwa FROM kreatura  JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury LEFT JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu;
+
+SELECT kreatura.nazwa, ekwipunek.idZasobu FROM kreatura LEFT JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury HAVING idZasobu IS NULL;
 
 
