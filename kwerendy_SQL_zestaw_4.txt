@@ -16,11 +16,27 @@ SELECT rodzaj, count(distinct(nazwa)) FROM zasob GROUP BY rodzaj HAVING count(di
 
 
 //zad 3
-SELECT kreatura.nazwa, zasob.idZasobu  FROM kreatura LEFT JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu;
+SELECT kreatura.nazwa, SUM(ekwipunek.ilosc) AS calkowita_ilosc FROM kreatura LEFT JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu GROUP BY kreatura.nazwa;
+
+SELECT kreatura.nazwa, ekwipunek.idZasobu as ekwipunek, zasob.idZasobu, (zasob.nazwa) FROM kreatura LEFT JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury LEFT JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu GROUP BY kreatura.nazwa;
 
 
-SELECT kreatura.nazwa, ekwipunek.idZasobu as ekwipunek, zasob.idZasobu, zasob.nazwa FROM kreatura  JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury LEFT JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu;
 
 SELECT kreatura.nazwa, ekwipunek.idZasobu FROM kreatura LEFT JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury HAVING idZasobu IS NULL;
+
+//ZAD 4
+SELECT kreatura.nazwa, YEAR(kreatura.dataUr) AS rokUr, zasob.idZasobu, zasob.nazwa from kreatura
+CROSS JOIN ekwipunek ON kreatura.idKreatury = ekwipunek.idKreatury JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu HAVING rokUr > 1670 AND rokUr < 1680;
+
+SELECT kreatura.nazwa, zasob.idZasobu, zasob.rodzaj FROM kreatura  JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury LEFT JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu HAVING rodzaj='jedzenie' ORDER BY kreatura.dataUr ASC  LIMIT 5;
+
+SELECT e.nazwa, m.nazwa, e.idKreatury, m.idKreatury FROM kreatura e INNER join kreatura m ON (e.idKreatury - m.idKreatury) = 5;
+
+//ZAD 5
+SELECT kreatura.rodzaj, zasob.nazwa, AVG(zasob.waga)  FROM kreatura JOIN ekwipunek ON ekwipunek.idKreatury = kreatura.idKreatury JOIN zasob ON zasob.idZasobu = ekwipunek.idZasobu GROUP BY kreatura.rodzaj HAVING kreatura.rodzaj != 'waz' AND kreatura.rodzaj != 'malpa' AND SUM(zasob.ilosc) < 30;
+
+
+SELECT e.rodzaj AS rodzaj_najmlodszej, e.dataUr AS dataUr_najmlodszej, e.nazwa AS nazwa_najmlodszej, m.rodzaj AS rodzaj_najstarszej, m.dataUr AS dataUr_najstarszej, m.nazwa AS nazwa_najstarszej FROM kreatura e INNER JOIN kreatura m ON (dataUr_najstarszej - dataUr_najmlodszej) > 100;
+
 
 
