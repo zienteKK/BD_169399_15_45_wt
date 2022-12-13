@@ -12,7 +12,7 @@ SELECT nazwa, ROUND(AVG(waga), 2) as srednia_waga  from zasob GROUP BY nazwa HAV
 
 //SELECT nazwa,ROUND( AVG(waga),2) AS srednia_waga FROM zasob WHERE ilosc >= '4' AND (SELECT SUM(waga) FROM zasob) > '10' GROUP BY nazwa;
 
-SELECT rodzaj, count(distinct(nazwa)) FROM zasob GROUP BY rodzaj HAVING count(distinct(nazwa)) > 1;
+SELECT rodzaj, count(distinct(nazwa)) FROM zasob GROUP BY rodzaj HAVING min(ilosc) > 1;
 
 
 //zad 3
@@ -37,7 +37,8 @@ SELECT kreatura.rodzaj, zasob.nazwa, ROUND(AVG(zasob.waga),2) AS srednia_waga  F
 
 
 
-SELECT e.rodzaj AS rodzaj_najmlodszej, e.dataUr AS dataUr_najmlodszej, e.nazwa AS nazwa_najmlodszej, m.rodzaj AS rodzaj_najstarszej, m.dataUr AS dataUr_najstarszej, m.nazwa AS nazwa_najstarszej FROM kreatura e INNER JOIN kreatura m ON (dataUr_najstarszej - dataUr_najmlodszej) > 100;
+SELECT e.nazwa, e.rodzaj, e.dataUr FROM kreatura e, (SELECT MIN(dataUr) AS min, MAX(dataUr) AS max FROM kreatura GROUP BY rodzaj) e2 WHERE dataUr=min OR dataUr=max;
+
 
 
 
