@@ -1,8 +1,13 @@
-//zad 1
+"zad 1"
 CREATE TABLE zienowiczp.kreatura AS (SELECT * FROM wikingowie.kreatura);
 CREATE TABLE zienowiczp.uczestnicy AS (SELECT * FROM wikingowie.uczestnicy);
 CREATE TABLE zienowiczp.etapy_wyprawy AS (SELECT * FROM wikingowie.etapy_wyprawy);
 CREATE TABLE zienowiczp.sektor AS (SELECT * FROM wikingowie.sektor);
 CREATE TABLE zienowiczp.wyprawa AS (SELECT * FROM wikingowie.wyprawa);
 
+SELECT wyprawa.nazwa, SUM(ekwipunek.ilosc) FROM wyprawa INNER JOIN uczestnicy ON wyprawa.id_wyprawy = uczestnicy.id_wyprawy INNER JOIN ekwipunek ON ekwipunek.idKreatury=uczestnicy.id_uczestnika GROUP BY wyprawa.nazwa;
 
+
+
+"zad 2"
+SELECT wyprawa.nazwa AS nazw_wyprawy, GROUP_CONCAT(uczestnicy.id_uczestnika SEPARATOR ','), GROUP_CONCAT(kreatura.nazwa SEPARATOR ', ') AS nazwy_kreatur FROM wyprawa INNER JOIN uczestnicy ON wyprawa.id_wyprawy = uczestnicy.id_uczestnika INNER JOIN kreatura ON uczestnicy.id_uczestnika = kreatura.idKreatury GROUP BY wyprawa.nazwa;
