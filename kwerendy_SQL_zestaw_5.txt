@@ -1,13 +1,35 @@
 "zad 1"
+"pkt 1"
 CREATE TABLE zienowiczp.kreatura AS (SELECT * FROM wikingowie.kreatura);
 CREATE TABLE zienowiczp.uczestnicy AS (SELECT * FROM wikingowie.uczestnicy);
 CREATE TABLE zienowiczp.etapy_wyprawy AS (SELECT * FROM wikingowie.etapy_wyprawy);
 CREATE TABLE zienowiczp.sektor AS (SELECT * FROM wikingowie.sektor);
 CREATE TABLE zienowiczp.wyprawa AS (SELECT * FROM wikingowie.wyprawa);
-
+"pkt 2"
+SELECT nazwa, idKreatury FROM kreatura WHERE NOT EXISTS (SELECT * FROM uczestnicy WHERE kreatura.idKreatury = uczestnicy.id_uczestnika);
+"pkt 3"
 SELECT wyprawa.nazwa, SUM(ekwipunek.ilosc) FROM wyprawa INNER JOIN uczestnicy ON wyprawa.id_wyprawy = uczestnicy.id_wyprawy INNER JOIN ekwipunek ON ekwipunek.idKreatury=uczestnicy.id_uczestnika GROUP BY wyprawa.nazwa;
 
 
 
 "zad 2"
-SELECT wyprawa.nazwa AS nazw_wyprawy, GROUP_CONCAT(uczestnicy.id_uczestnika SEPARATOR ','), GROUP_CONCAT(kreatura.nazwa SEPARATOR ', ') AS nazwy_kreatur FROM wyprawa INNER JOIN uczestnicy ON wyprawa.id_wyprawy = uczestnicy.id_uczestnika INNER JOIN kreatura ON uczestnicy.id_uczestnika = kreatura.idKreatury GROUP BY wyprawa.nazwa;
+"pkt 1"
+SELECT wyprawa.nazwa, COUNT(uczestnicy.id_uczestnika) AS liczba_uczestnikow, GROUP_CONCAT(kreatura.nazwa SEPARATOR ', ') AS nazwy_uczestnikow FROM wyprawa LEFT JOIN uczestnicy ON wyprawa.id_wyprawy = uczestnicy.id_wyprawy LEFT JOIN kreatura ON uczestnicy.id_uczestnika = kreatura.idKreatury GROUP BY wyprawa.nazwa;
+
+"pkt 2"
+
+"To jest źle
+SELECT wyprawa.nazwa AS nazwa_wyprawy, (etapy_wyprawy.idEtapu) AS etapy_wyprawy, GROUP_CONCAT(sektor.nazwa SEPARATOR ', ') AS nazwa_sektorow, kreatura.nazwa  FROM wyprawa LEFT JOIN etapy_wyprawy ON wyprawa.id_wyprawy = etapy_wyprawy.idWyprawy LEFT JOIN sektor ON etapy_wyprawy.sektor = sektor.id_sektora LEFT JOIN kreatura ON wyprawa.kierownik = kreatura.idKreatury GROUP BY wyprawa.data_rozpoczecia;"
+
+"To nie wiem czy tak ma być ale chyba powinienem sortowac po nazwie etapu"
+SELECT etapy_wyprawy.IdEtapu, etapy_wyprawy.kolejnosc, sektor.nazwa, kreatura.nazwa FROM wyprawa INNER JOIN etapy_wyprawy ON wyprawa.id_wyprawy = etapy_wyprawy.IdWyprawy INNER JOIN sektor ON etapy_wyprawy.sektor = sektor.id_sektora INNER JOIN kreatura ON wyprawa.kierownik = kreatura.idKreatury ORDER BY wyprawa.data_rozpoczecia ASC, etapy_wyprawy.kolejnosc ASC;
+
+"Zad 3"
+"pkt 1"
+SELECT sektor.nazwa AS nazwa_sektora, COUNT(etapy_wyprawy.sektor) AS ilosc_odwiedzin FROM sektor LEFT JOIN etapy_wyprawy ON sektor.id_sektora = etapy_wyprawy.sektor GROUP BY sektor.id_sektora;
+"pkt 2"
+SELECT kreatura.nazwa, CASE WHEN COUNT(uczestnicy.id_uczestnika) > 0 THEN 'bral udział w wyprawie' ELSE 'nie bral udzialu w wyprawie' END AS udzial FROM kreatura LEFT JOIN uczestnicy ON kreatura.idKreatury = uczestnicy.id_uczestnika GROUP BY kreatura.idKreatury;
+
+"Zad 4"
+"pkt 1"
+Psycha mi siadła
