@@ -26,7 +26,7 @@ SELECT etapy_wyprawy.IdEtapu, etapy_wyprawy.kolejnosc, sektor.nazwa, kreatura.na
 
 "Zad 3"
 "pkt 1"
-SELECT sektor.nazwa AS nazwa_sektora, COUNT(etapy_wyprawy.sektor) AS ilosc_odwiedzin FROM sektor LEFT JOIN etapy_wyprawy ON sektor.id_sektora = etapy_wyprawy.sektor GROUP BY sektor.id_sektora;
+SELECT sektor.nazwa AS nazwa_sektora,  COUNT(etapy_wyprawy.sektor) AS ilosc_odwiedzin FROM sektor LEFT JOIN etapy_wyprawy ON sektor.id_sektora = etapy_wyprawy.sektor GROUP BY sektor.id_sektora;
 "pkt 2"
 SELECT kreatura.nazwa, CASE WHEN COUNT(uczestnicy.id_uczestnika) > 0 THEN 'bral udział w wyprawie' ELSE 'nie bral udzialu w wyprawie' END AS udzial FROM kreatura LEFT JOIN uczestnicy ON kreatura.idKreatury = uczestnicy.id_uczestnika GROUP BY kreatura.idKreatury;
 
@@ -35,6 +35,8 @@ SELECT kreatura.nazwa, CASE WHEN COUNT(uczestnicy.id_uczestnika) > 0 THEN 'bral 
 SELECT wyprawa.nazwa, SUM(LENGTH(etapy_wyprawy.dziennik)) AS suma_znakow FROM wyprawa JOIN etapy_wyprawy ON wyprawa.id_wyprawy = etapy_wyprawy.idWyprawy GROUP BY wyprawa.nazwa HAVING suma_znakow < 400;
 
 "pkt 2"
+SELECT w.nazwa, ROUND(SUM(z.waga*e.ilosc)/COUNT(u.id_uczestnika), 2) AS 'srednia_waga_zasobow' FROM wyprawa w INNER JOIN uczestnicy u ON w.id_wyprawy=u.id_wyprawy INNER JOIN kreatura k ON u.id_uczestnika=k.idKreatury INNER JOIN ekwipunek e ON k.idKreatury=e.idKreatury INNER JOIN zasob z ON e.idZasobu=z.idZasobu GROUP BY w.nazwa;
+
 
 "Zad 5"
 "pkt 1"
