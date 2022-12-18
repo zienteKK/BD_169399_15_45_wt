@@ -3,3 +3,7 @@ Konsultacje czwartek 11:30 do 13:00 - online
 t.zmijewski@uwm.edu.pl
 
 https://github.com/tomzmi/BazyDanych
+
+Logowanie do PUTTY:
+IP: 213.184.8.36
+login: zienowiczp

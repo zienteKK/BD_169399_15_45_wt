@@ -32,4 +32,10 @@ SELECT kreatura.nazwa, CASE WHEN COUNT(uczestnicy.id_uczestnika) > 0 THEN 'bral 
 
 "Zad 4"
 "pkt 1"
-Psycha mi siadła
+SELECT wyprawa.nazwa, SUM(LENGTH(etapy_wyprawy.dziennik)) AS suma_znakow FROM wyprawa JOIN etapy_wyprawy ON wyprawa.id_wyprawy = etapy_wyprawy.idWyprawy GROUP BY wyprawa.nazwa HAVING suma_znakow < 400;
+
+"pkt 2"
+
+"Zad 5"
+"pkt 1"
+SELECT kreatura.nazwa, DATEDIFF(wyprawa.data_rozpoczecia, kreatura.dataUR) as ilosc_dni FROM etapy_wyprawy INNER JOIN sektor ON etapy_wyprawy.sektor = sektor.id_sektora INNER JOIN wyprawa ON etapy_wyprawy.idWyprawy = wyprawa.id_wyprawy INNER JOIN uczestnicy ON uczestnicy.id_wyprawy = wyprawa.id_wyprawy INNER JOIN kreatura ON uczestnicy.id_uczestnika = kreatura.idKreatury WHERE sektor.nazwa = 'Chatka dziadka' GROUP BY kreatura.nazwa;
