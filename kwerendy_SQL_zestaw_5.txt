@@ -32,7 +32,7 @@ SELECT kreatura.nazwa, CASE WHEN COUNT(uczestnicy.id_uczestnika) > 0 THEN 'bral 
 
 "Zad 4"
 "pkt 1"
-SELECT wyprawa.nazwa, SUM(LENGTH(etapy_wyprawy.dziennik)) AS suma_znakow FROM wyprawa JOIN etapy_wyprawy ON wyprawa.id_wyprawy = etapy_wyprawy.idWyprawy GROUP BY wyprawa.nazwa HAVING suma_znakow < 400;
+SELECT wyprawa.nazwa, SUM(CHAR_LENGTH(etapy_wyprawy.dziennik)) AS suma_znakow FROM wyprawa JOIN etapy_wyprawy ON wyprawa.id_wyprawy = etapy_wyprawy.idWyprawy GROUP BY wyprawa.nazwa HAVING suma_znakow < 400;
 
 "pkt 2"
 SELECT w.nazwa, ROUND(SUM(z.waga*e.ilosc)/COUNT(u.id_uczestnika), 2) AS 'srednia_waga_zasobow' FROM wyprawa w INNER JOIN uczestnicy u ON w.id_wyprawy=u.id_wyprawy INNER JOIN kreatura k ON u.id_uczestnika=k.idKreatury INNER JOIN ekwipunek e ON k.idKreatury=e.idKreatury INNER JOIN zasob z ON e.idZasobu=z.idZasobu GROUP BY w.nazwa;
