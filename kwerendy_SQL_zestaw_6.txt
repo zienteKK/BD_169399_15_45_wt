@@ -1,0 +1,75 @@
+"zad 1"
+"pkt 1"
+DELIMITER $$
+CREATE TRIGGER kreatura_edycja BEFORE INSERT ON kreatura FOR EACH ROW BEGIN IF waga>0 THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Waga kreatury jest wieksza od zera'; END IF; END$$
+DELIMITER ;
+
+
+"zad 2"
+CREATE TABLE archiwum_wypraw LIKE wyprawa;
+INSERT INTO wyprawa VALUES(5, 'ff', CURDATE(), CURDATE(), 1);
+ALTER TABLE archiwum_wypraw MODIFY COLUMN kierownik varchar(50);
+DELIMITER $$
+CREATE TRIGGER trig_4 AFTER DELETE  ON wyprawa FOR EACH ROW BEGIN  INSERT INTO archiwum_wypraw VALUES(old.id_wyprawy, old.nazwa, old.data_rozpoczecia, old.data_zakonczenia, (SELECT nazwa FROM kreatura WHERE kreatura.idKreatury = old.kierownik)); END$$
+DELIMITER ;
+
+"zad 3"
+"pkt 1"
+DELIMITER $$
+CREATE PROCEDURE eliksir_sily (IN id INT)
+BEGIN
+  UPDATE kreatura
+  SET udzwig = udzwig * 1.2
+  WHERE id_kreatura = id;
+END $$
+DELIMITER ;
+"pkt 2"
+DELIMITER $$
+CREATE FUNCTION wielkie_litery (s VARCHAR(255))
+RETURNS VARCHAR(255)
+BEGIN
+  DECLARE result VARCHAR(255);
+  SET result = UPPER(s);
+  RETURN result;
+END $$
+DELIMITER ;
+SELECT wielkie_litery('dziala');
+
+"zad 4"
+"pkt 1"
+CREATE TABLE system_alarmowy (
+  id_alarmu INT NOT NULL AUTO_INCREMENT,
+  wiadomosc VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id_alarmu)
+);
+"pkt 2"
+CREATE TRIGGER zad4 BEFORE INSERT ON wyprawa 
+FOR EACH ROW BEGIN IF (IFNULL((SELECT id_uczestnika FROM uczestnicy WHERE id_uczestnika = 14 AND id_wyprawy=new.id_wyprawy LIMIT 1), 0) AND IFNULL((SELECT sektor FROM etapy_wyprawy WHERE idWyprawy=new.id_wyprawy AND sektor=7), 0)) THEN INSERT INTO system_alarmowy VALUES (NULL, 'Tesciowa nadchodzi !!!');
+END IF; 
+END//
+*
+"zad 5"
+"pkt 1"
+DELIMITER $$
+CREATE PROCEDURE staty_udzwig (OUT srednia FLOAT, OUT suma FLOAT, OUT maks FLOAT)
+BEGIN
+  SELECT AVG(udzwig) INTO srednia FROM kreatura;
+  SELECT SUM(udzwig) INTO suma FROM kreatura;
+  SELECT MAX(udzwig) INTO maks FROM kreatura;
+END $$
+DELIMITER ;
+
+"pkt 2"
+DELIMITER //
+CREATE PROCEDURE GetSectorsByTripId(IN tripId INT)
+BEGIN
+    SELECT s.nazwa, CONCAT(s.wspolrzedna_x, s.wspolrzedna_y) AS wsporzedne_sektora FROM sektor s
+    JOIN etapy_wyprawy e ON s.id_sektora = e.sektor
+    JOIN wyprawa w ON w.id_wyprawy = e.idWyprawy
+    WHERE w.id_wyprawy = tripId
+    ORDER BY e.kolejnosc;
+END //
+DELIMITER ;
+
+
+
